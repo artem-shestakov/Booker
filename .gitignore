@@ -1,0 +1,10 @@
+# Cache and env
+venv
+**/__pycache__
+
+# Editor's files
+.vscode/
+.DS_Store
+
+# Databases
+*.sqlite3
