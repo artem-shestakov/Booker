@@ -1,6 +1,6 @@
 from reviews.utils import average_raring
 import reviews
-from reviews.models import Book
+from reviews.models import Book, BooksContributors
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -9,9 +9,12 @@ def index(request):
     return render(request, "base.html")
 
 def books_list(request):
+    '''Get all books'''
     books = Book.objects.all()
     books_list = []
+    # Prepare context for template
     for book in books:
+        # Get book's reviews
         reviews = book.review_set.all()
         if reviews:
             number_of_review = len(reviews)
@@ -19,8 +22,16 @@ def books_list(request):
         else:
             number_of_review = 0
             rating = 0
+        # Get author from contributers
+        authors = []
+        book_contributors = book.contributors.all()
+        for contributor in book_contributors:
+            # If current book's contributer has author role
+            if BooksContributors.objects.get(contributor=contributor).role == 'AUTHOR':
+                authors.append(contributor)
         books_list.append({
             'book': book,
+            'authors': authors,
             'number_of_review': number_of_review,
             'rating': rating
         })
@@ -30,6 +41,7 @@ def books_list(request):
     return render(request, 'books_list.html', context)
 
 def book_detail(request, id):
+    '''Get book information by ID'''
     book = get_object_or_404(Book, pk=id)
     reviews = book.review_set.all()
     if reviews:
@@ -42,9 +54,3 @@ def book_detail(request, id):
         'reviews': reviews
     }
     return render(request, "book.html", context)
-
-def search(request):
-    search_text = request.GET.get("search", "") 
-    return render(request, "search.html", {
-        "search_item": search_text
-    })

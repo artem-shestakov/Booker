@@ -9,6 +9,8 @@
     <div>
       <h5 class="mt-0">{{ book.book.title }}</h5>
       <br>
+      <span class="text-info">Authors: </span><span>{% for author in book.authors%} {{author.first_name}} {{author.last_name}} {% endfor %}</span>
+      <br>
       <span class="text-info">Number of reviews: </span><span>{{ book.number_of_review }}</span>
       <br>
       <span class="text-info">Rating: </span><span class="badge {% if book.rating < 4 %}bg-warning{% else %}bg-success{% endif %} text-wrap">{{ book.rating }}</span>
