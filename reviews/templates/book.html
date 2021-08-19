@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}{{ book.title }}{% endblock %}
+{% block title_page%}Book detail{% endblock %}
+
+{% block content %}
+<div>
+    <span class="text-info">Title: </span><span>{{ book.title }}</span>
+    <br>
+    <span class="text-info">Publisher: </span><span>{{ book.publisher }}</span>
+    <br>
+    <span class="text-info">Publication Date: </span><span>{{ book.publication_date }}</span>
+    <br>
+    <span class="text-info">Review rating: </span><span class="badge {% if rating < 4 %}bg-warning{% else %}bg-success{% endif %} text-wrap">{{ rating }}</span>
+</div>
+<hr>
+<h3>Reviews:</h3>
+
+<ul class="list-group list-group-flush">
+    {% if reviews %}
+    {% for review in reviews %}
+    <li class="list-group-item">
+        <span class="text-info">Review message: </span><span>{{ review.content }}</span>
+        <br>
+        <span class="text-info">Author: </span><span>{{ review.author }}</span>
+        <br>
+        <span class="text-info">Mark: </span><span>{{ review.rating }}</span>
+        <br>
+        <span class="text-info">Created: </span><span>{{ review.date_created }}</span>
+        <br>
+    </li>
+    {% endfor %}
+    {% else %}
+    <li class="list-group-item">
+        <span>No reviews ¯\_(ツ)_/. You can be first...</span>
+    </li>
+    {% endif %}
+</ul>
+{% endblock content %}

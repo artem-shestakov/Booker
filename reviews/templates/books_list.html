@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title%}All books{% endblock %}
+{% block title_page%}All books{% endblock %}
+
+{% block content %}
+{% for book in books_list %}
+<div class="d-flex position-relative shadow-lg p-3 mb-3 bg-body rounded-3 border border-1">
+    <img src="" class="flex-shrink-0 me-3" alt="...">
+    <div>
+      <h5 class="mt-0">{{ book.book.title }}</h5>
+      <br>
+      <span class="text-info">Number of reviews: </span><span>{{ book.number_of_review }}</span>
+      <br>
+      <span class="text-info">Rating: </span><span class="badge {% if book.rating < 4 %}bg-warning{% else %}bg-success{% endif %} text-wrap">{{ book.rating }}</span>
+      <a href="/books/{{book.book.pk}}" class="stretched-link"></a>
+    </div>
+</div>
+{% endfor%}
+{% endblock content %}
